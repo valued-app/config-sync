@@ -1,0 +1,9 @@
+{
+  "name": "@valued-app/gh-loader",
+  "version": "0.0.0",
+  "type": "module",
+  "repository": "github:valued-app/config-sync",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js"
+}

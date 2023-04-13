@@ -1,0 +1,12 @@
+{
+  "name": "@valued-app/fs-loader",
+  "version": "0.0.0",
+  "type": "module",
+  "repository": "github:valued-app/config-sync",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "dependencies": {
+    "@types/node": "^18.15.11"
+  }
+}

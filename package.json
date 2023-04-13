@@ -1,0 +1,24 @@
+{
+  "name": "@compiled-fluent/config-sync",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/config",
+    "packages/fs-loader",
+    "packages/gh-loader"
+  ],
+
+  "scripts": {
+    "predocs": "node ./scripts/prebuild.js",
+    "prebuild": "node ./scripts/prebuild.js",
+    "prewatch": "node ./scripts/prebuild.js",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch",
+    "docs": "typedoc --options typedoc.config.cjs"
+  },
+  "devDependencies": {
+    "typedoc": "^0.23.26",
+    "typescript": "^4.9.5"
+  }
+}

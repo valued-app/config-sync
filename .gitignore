@@ -1,0 +1,19 @@
+# tsc ouput
+/*/dist
+
+# Generated docs
+/html
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Dependency directories
+node_modules
+jspm_packages/
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz

@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    "**/*.tsbuildinfo": true,
+    "**/node_modules": true,
+    "packages/*/dist": true,
+    "html": true
+  },
+  "cSpell.words": [
+  ]
+}
