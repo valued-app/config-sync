@@ -1,4 +1,4 @@
-import { FormatOption } from "./formats.js";
+import { Format, FormatOption, buildFormats } from "./formats.js";
 import { Loader, LoaderFileResult } from "./loader.js";
 import { Options, defaultOptions } from "./options.js";
 import { Payload, StrictPayload, normalizePayload } from "./payload.js";
@@ -30,7 +30,7 @@ export class Config {
   }
 
   private directories: string[];
-  private files: string[];
+  private files: Map<string, { format: Format, key: string }>;
   private data: any;
 
   /**
@@ -66,11 +66,35 @@ export class Config {
    */
   constructor(formats: FormatOption = null, configOptions: Options = {}) {
     const options = { ...defaultOptions, ...configOptions };
-    this.directories = options.directories!.flatMap(directory => {
-      return [directory, ...options.configNames!.map(configName => `${directory}/${configName}`)];
-    });
-    this.files = [];
+    this.directories = []
+    this.files = new Map();
     this.data = { };
+
+    const formatList = buildFormats(formats, options.defaultFormatters!);
+
+    let nestedConfigs: string[];
+    if (options.nestedConfigs === true) nestedConfigs = defaultOptions.nestedConfigs as string[];
+    else if (options.nestedConfigs === false) nestedConfigs = [];
+    else nestedConfigs = options.nestedConfigs as string[];
+
+    options.directories!.forEach(directory => {
+      let prefix: string;
+      if (directory === ".") {
+        prefix = "";
+      } else {
+        prefix = `${directory}/`;
+        this.directories.push(directory);
+      }
+      options.configNames!.forEach(configName => {
+        this.directories.push(`${prefix}${configName}`);
+        formatList.forEach((format, extension) => {
+          this.files.set(`${prefix}${configName}.${extension}`, { format, key: configName });
+          nestedConfigs.forEach(key => {
+            this.files.set(`${prefix}${configName}/${key}.${extension}`, { format, key });
+          });
+        });
+      });
+    });
   }
 
   /**
@@ -110,7 +134,7 @@ export class Config {
       for (let entry of result.entries) {
         if (this.directories.includes(entry)) {
           promises.push(this.load(loader, entry, "directory"));
-        } else if (this.files.includes(entry)) {
+        } else if (this.files.has(entry)) {
           promises.push(this.load(loader, entry, "file"));
         }
       }
@@ -141,7 +165,9 @@ export class Config {
    * @see {@link LoaderFileResult}
    */
   addFile(file: LoaderFileResult) {
-
+    if (!this.files.has(file.path)) throw new Error(`Cannot add file ${file.path}, unsupported path`);
+    const { format, key } = this.files.get(file.path)!;
+    this.add(key, format(file.content));
   }
 
   /**

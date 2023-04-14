@@ -59,9 +59,12 @@ function normalizeKey(key: string): string {
 }
 
 function normalizePayloadValue(value: PayloadValue): StrictPayloadValue {
-  if (typeof value === "object") {
-    return normalizePayload(value as Payload);
-  } else {
-    return value;
+  switch (typeof value) {
+    case "object": return normalizePayload(value as Payload);
+    case "string": return value;
+    case "number": return value;
+    case "boolean": return value;
+    case "bigint": return Number(value);
+    default: throw new Error(`Unsupported payload value type: ${typeof value}`);
   }
 }

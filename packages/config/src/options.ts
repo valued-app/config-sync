@@ -4,7 +4,7 @@
 export interface Options {
   /**
    * The directories to search for configuration files.
-   * Defaults to `[".config", "config"]`.
+   * Defaults to `[".", ".config", "config"]`.
    * @note This does not include the directory for multiple configuration files (ie. `valued`).
    */
   directories?: string[];
@@ -35,7 +35,7 @@ export interface Options {
 }
 
 export const defaultOptions: Options = {
-  directories: [".config", "config"],
+  directories: [".", ".config", "config"],
   configNames: [".valued", "valued"],
   nestedConfigs: ["goals", "signals"],
   defaultFormatters: true

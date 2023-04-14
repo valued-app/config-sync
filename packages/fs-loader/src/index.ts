@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import { resolve, relative } from "path";
+import { resolve, relative, join } from "path";
 
 /**
  * Implements the `Loader` interface expected by `@valued-app/config` for the filesystem.
@@ -27,7 +27,7 @@ export class FsLoader {
    */
   async read(path: string) {
     let fullPath = resolve(this.rootPath, path);
-    let lstat = await fs.lstat(path);
+    let lstat = await fs.lstat(fullPath);
 
     while (lstat.isSymbolicLink()) {
       fullPath = resolve(fullPath, await fs.readlink(fullPath));
@@ -37,7 +37,7 @@ export class FsLoader {
     const relativePath = relative(this.rootPath, fullPath);
 
     if (lstat.isDirectory()) {
-      const entries = await fs.readdir(fullPath);
+      const entries = (await fs.readdir(fullPath)).map(entry => join(relativePath, entry));
       return { type: "directory", path: relativePath, entries };
     }
 

@@ -1,5 +1,5 @@
 # tsc ouput
-/*/dist
+/packages/*/dist
 
 # Generated docs
 /html

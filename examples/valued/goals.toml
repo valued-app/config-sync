@@ -1,0 +1,6 @@
+["Example goal"]
+action-key = "action1"
+
+["Other goal"]
+action-key = "action2"
+threshold = 5
