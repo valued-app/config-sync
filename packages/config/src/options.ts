@@ -32,11 +32,27 @@ export interface Options {
    * ```
    */
   defaultFormatters?: boolean;
+
+  /**
+   * The fetch function to use for making HTTP requests.
+   * Defaults to `globalThis.fetch` or `node-fetch` if `globalThis.fetch` is not available.
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch}
+   * @see {@link https://www.npmjs.com/package/node-fetch}
+   */
+  fetch?: (url: string, options: any) => Promise<{ json(): any }>;
 }
+
+let nodeFetch: (url: string, options: any) => Promise<{ json(): any }>;
+
+const fetch = globalThis.fetch || async function (url: string, options: any) {
+  if (!nodeFetch) nodeFetch = (await import("node-fetch")).default;
+  return nodeFetch(url, options);
+};
 
 export const defaultOptions: Options = {
   directories: [".", ".config", "config"],
   configNames: [".valued", "valued"],
   nestedConfigs: ["goals", "signals"],
-  defaultFormatters: true
+  defaultFormatters: true,
+  fetch,
 }

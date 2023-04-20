@@ -32,6 +32,7 @@ export class Config {
   private directories: string[];
   private files: Map<string, { format: Format, key: string }>;
   private data: any;
+  private fetch: (url: string, options: any) => Promise<{ json(): any }>;
 
   /**
    * Creates a new `Config` instance.
@@ -69,6 +70,7 @@ export class Config {
     this.directories = []
     this.files = new Map();
     this.data = { };
+    this.fetch = options.fetch!;
 
     const formatList = buildFormats(formats, options.defaultFormatters!);
 
@@ -185,6 +187,23 @@ export class Config {
    */
   add(key: string, payload: Payload) {
     this.addNormalized(key, normalizePayload(payload));
+  }
+
+  /**
+   * Pushes the configuration to the Valued API.
+   * @param token The Valued API token to use.
+   * @param endpoint The endpoint to push to. Defaults to the public Valued API.
+   */
+  async push(token: string, endpoint: string = "https://ingest.valued.app/events") {
+    const response = await this.fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(this),
+    });
+    return response.json();
   }
 
   /**
