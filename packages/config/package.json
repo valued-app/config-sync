@@ -9,5 +9,8 @@
   "dependencies": {
     "@ltd/j-toml": "^1.38.0",
     "yaml": "^2.2.1"
+  },
+  "optionalDependencies": {
+    "node-fetch": "^3.3.1"
   }
 }
