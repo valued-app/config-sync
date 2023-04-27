@@ -104,6 +104,41 @@ This will output:
 }
 ```
 
+### Pushing a configuration to Valued
+
+``` javascript
+import { Config } from "@valued-app/config"
+import { FsLoader } from "@valued-app/fs-loader"
+
+// settings
+const path = "./my_repo"
+const token = "secret Valued token"
+
+// code to load config and push it
+const loader = new FsLoader(path)
+const config = new Config()
+config.push(token)
+```
+
+This will use the standardized [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) API under the hood, as is implemented by all Browsers, Deno, and Node.js 18 or higher. For Node.js versions prior to 18, you need to install a polyfill, such as [node-fetch](https://www.npmjs.com/package/node-fetch).
+
+You can also pass your own, fetch-compatible function via a configuration option:
+
+``` javascript
+const config = new Config(null, {
+  // signature: (url: string, options: any) => Promise<{ json(): any }>
+  fetch: (url, options) => {
+    // this implementation won't actually do anything
+    return Promise.resolve({
+      json: () => Promise.resolve({ status: "ok" })
+    })
+  }
+})
+
+config.load(loader)
+config.push(token)
+```
+
 ## Full documentation
 
 You can generate API docs using `npm run docs` (output will be in the `html` directory).
