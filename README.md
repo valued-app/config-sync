@@ -120,7 +120,7 @@ const config = new Config()
 config.push(token)
 ```
 
-This will use the standardized [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) API under the hood, as is implemented by all Browsers, Deno, and Node.js 18 or higher. For Node.js versions prior to 18, you need to install a polyfill, such as [node-fetch](https://www.npmjs.com/package/node-fetch).
+This will use the standardized [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) API under the hood, as is implemented by all modern browsers, Deno, and Node.js 18 or higher. For Node.js versions prior to 18, you need to install a polyfill, such as [node-fetch](https://www.npmjs.com/package/node-fetch).
 
 You can also pass your own, fetch-compatible function via a configuration option:
 
