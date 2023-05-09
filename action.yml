@@ -1,0 +1,6 @@
+name: "Valued"
+description: "Configure Valued projects from your repository"
+
+runs:
+  using: "node16"
+  main: "scripts/action.js"
