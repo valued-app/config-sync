@@ -22,8 +22,13 @@ export declare class Config {
      * create a single `Config` instance and call `load` on it multiple times instead.
      */
     static load(loader: Loader, callback?: (config: Config) => void): Promise<Config>;
+    /**
+     * List of files that have been loaded.
+     * @see {@link Config.addFile}
+     **/
+    loadedFiles: Set<string>;
     private directories;
-    private files;
+    private possibleFiles;
     private data;
     private fetch;
     /**
@@ -135,6 +140,11 @@ export declare class Config {
         category: string;
         data: any;
     };
+    /**
+     * Checks whether the configuration is empty.
+     * @returns Whether the configuration is empty.
+     */
+    isEmpty(): boolean;
     /**
      * Checks whether a payload is a valid goal definition.
      * Will throw an error if the payload is invalid.

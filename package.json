@@ -21,6 +21,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@actions/core": "^1.10.0"
+    "@actions/core": "^1.10.0",
+    "node-fetch": "^3.3.1"
   }
 }

@@ -29,8 +29,14 @@ export class Config {
     return promise;
   }
 
+  /**
+   * List of files that have been loaded.
+   * @see {@link Config.addFile}
+   **/
+  loadedFiles: Set<string>;
+
   private directories: string[];
-  private files: Map<string, { format: Format, key: string }>;
+  private possibleFiles: Map<string, { format: Format, key: string }>;
   private data: any;
   private fetch: (url: string, options: any) => Promise<{ json(): any }>;
 
@@ -68,7 +74,8 @@ export class Config {
   constructor(formats: FormatOption = null, configOptions: Options = {}) {
     const options = { ...defaultOptions, ...configOptions };
     this.directories = []
-    this.files = new Map();
+    this.possibleFiles = new Map();
+    this.loadedFiles = new Set();
     this.data = { };
     this.fetch = options.fetch!;
 
@@ -90,9 +97,9 @@ export class Config {
       options.configNames!.forEach(configName => {
         this.directories.push(`${prefix}${configName}`);
         formatList.forEach((format, extension) => {
-          this.files.set(`${prefix}${configName}.${extension}`, { format, key: configName });
+          this.possibleFiles.set(`${prefix}${configName}.${extension}`, { format, key: configName });
           nestedConfigs.forEach(key => {
-            this.files.set(`${prefix}${configName}/${key}.${extension}`, { format, key });
+            this.possibleFiles.set(`${prefix}${configName}/${key}.${extension}`, { format, key });
           });
         });
       });
@@ -136,7 +143,7 @@ export class Config {
       for (let entry of result.entries) {
         if (this.directories.includes(entry)) {
           promises.push(this.load(loader, entry, "directory"));
-        } else if (this.files.has(entry)) {
+        } else if (this.possibleFiles.has(entry)) {
           promises.push(this.load(loader, entry, "file"));
         }
       }
@@ -167,8 +174,9 @@ export class Config {
    * @see {@link LoaderFileResult}
    */
   addFile(file: LoaderFileResult) {
-    if (!this.files.has(file.path)) throw new Error(`Cannot add file ${file.path}, unsupported path`);
-    const { format, key } = this.files.get(file.path)!;
+    if (!this.possibleFiles.has(file.path)) throw new Error(`Cannot add file ${file.path}, unsupported path`);
+    this.loadedFiles.add(file.path);
+    const { format, key } = this.possibleFiles.get(file.path)!;
     this.add(key, format(file.content));
   }
 
@@ -216,6 +224,14 @@ export class Config {
       category: "config",
       data: this.data
     };
+  }
+
+  /**
+   * Checks whether the configuration is empty.
+   * @returns Whether the configuration is empty.
+   */
+  isEmpty() {
+    return Object.keys(this.data).length === 0;
   }
 
   /**
