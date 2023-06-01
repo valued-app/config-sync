@@ -1,6 +1,10 @@
 name: "Valued Config Sync"
 description: "Configure Valued projects from your repository"
 
+branding:
+  icon: refresh-cw
+  color: yellow
+
 runs:
   using: "node16"
   main: "scripts/action.js"
