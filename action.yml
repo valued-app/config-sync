@@ -1,7 +1,5 @@
 name: "Valued"
 description: "Configure Valued projects from your repository"
-icon: refresh-cw
-color: yellow
 
 runs:
   using: "node16"
