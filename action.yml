@@ -4,3 +4,8 @@ description: "Configure Valued projects from your repository"
 runs:
   using: "node16"
   main: "scripts/action.js"
+
+inputs:
+  token:
+    description: "Valued API token"
+    required: true
