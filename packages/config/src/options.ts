@@ -1,4 +1,9 @@
 /**
+ * The fetch function to use for making HTTP requests.
+ */
+export type Fetch = (url: string, options: any) => Promise<{ json(): any }>;
+
+/**
  * Options for {@link Config} instance creation.
  */
 export interface Options {
@@ -39,10 +44,10 @@ export interface Options {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch}
    * @see {@link https://www.npmjs.com/package/node-fetch}
    */
-  fetch?: (url: string, options: any) => Promise<{ json(): any }>;
+  fetch?: Fetch;
 }
 
-let nodeFetch: (url: string, options: any) => Promise<{ json(): any }>;
+let nodeFetch: Fetch;
 
 const fetch = globalThis.fetch || async function (url: string, options: any) {
   if (!nodeFetch) nodeFetch = (await import("node-fetch")).default;

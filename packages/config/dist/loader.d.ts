@@ -1,3 +1,4 @@
+import { Fetch } from "./options.js";
 /**
  * Interface expected by {@link Config.load} as a possible return value of {@link Loader.read},
  * as well as the input to {@link Config.addFile}.
@@ -20,6 +21,12 @@ export interface LoaderDirectoryResult {
  */
 export type LoaderResult = LoaderFileResult | LoaderDirectoryResult;
 /**
+ * Options passed to the {@link Loader.read} method.
+ */
+export interface LoaderReadOptions {
+    fetch: Fetch;
+}
+/**
  * Interface expected by {@link Config.load}. Implemented by `@valued/fs-loader` and `@valued/gh-loader`.
  */
 export interface Loader {
@@ -27,5 +34,5 @@ export interface Loader {
      * Reads a file or directory via the loader.
      * @param path The path to read (relative to the root directory).
      */
-    read(path: string): Promise<LoaderResult>;
+    read(path: string, options: LoaderReadOptions): Promise<LoaderResult>;
 }

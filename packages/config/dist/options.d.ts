@@ -1,4 +1,10 @@
 /**
+ * The fetch function to use for making HTTP requests.
+ */
+export type Fetch = (url: string, options: any) => Promise<{
+    json(): any;
+}>;
+/**
  * Options for {@link Config} instance creation.
  */
 export interface Options {
@@ -35,8 +41,6 @@ export interface Options {
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch}
      * @see {@link https://www.npmjs.com/package/node-fetch}
      */
-    fetch?: (url: string, options: any) => Promise<{
-        json(): any;
-    }>;
+    fetch?: Fetch;
 }
 export declare const defaultOptions: Options;

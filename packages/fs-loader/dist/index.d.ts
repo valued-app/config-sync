@@ -18,7 +18,7 @@ export declare class FsLoader {
     /**
      * This is being called by `@valued-app/config` to read a file or directory.
      */
-    read(path: string): Promise<{
+    read(path: string, _options: any): Promise<{
         type: string;
         path: string;
         entries: string[];

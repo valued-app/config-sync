@@ -57,6 +57,20 @@ import { FsLoader } from "@valued-app/fs-loader"
 load(new FsLoader("."), config => console.log(config.toJSON()))
 ```
 
+### Loading configuration from a GitHub repository
+
+``` javascript
+import { load } from "@valued-app/config"
+import { GhLoader } from "@valued-app/gh-loader"
+
+const loader = new GhLoader({
+  repo: "valued-app/valued-config",
+  ref: "main", // optional
+  token: process.env.GITHUB_TOKEN
+})
+
+load(loader, config => console.log(config.toJSON()))
+```
 
 ### Programmatically generating configuration
 
