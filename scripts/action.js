@@ -1,9 +1,15 @@
 import action from "@actions/core";
 import fetch from "node-fetch";
-import { FsLoader } from "../packages/fs-loader/dist/index.js";
+import { GhLoader } from "../packages/gh-loader/dist/index.js";
 import { Config } from "../packages/config/dist/index.js";
 
-const loader = new FsLoader(".");
+const loader = new GhLoader({
+  repo: process.env.GITHUB_REPOSITORY,
+  ref: process.env.GITHUB_SHA,
+  endpoint: process.env.GITHUB_API_URL,
+  token: action.getInput("github-token"),
+});
+
 const config = new Config(null, { fetch });
 const token = action.getInput("token");
 
