@@ -25,7 +25,7 @@ export class FsLoader {
   /**
    * This is being called by `@valued-app/config` to read a file or directory.
    */
-  async read(path: string) {
+  async read(path: string, _options: any) {
     let fullPath = resolve(this.rootPath, path);
     let lstat = await fs.lstat(fullPath);
 

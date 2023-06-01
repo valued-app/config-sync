@@ -119,7 +119,7 @@ export class Config {
      * @see {@link Loader}
      */
     async load(loader, path = ".", expectedType = "directory") {
-        const result = await loader.read(path);
+        const result = await loader.read(path, { fetch: this.fetch });
         if (result.type !== expectedType) {
             throw new Error(`Cannot load ${path}, unexpected type ${result.type}`);
         }

@@ -9,3 +9,6 @@ inputs:
   token:
     description: "Valued API token"
     required: true
+  github-token:
+    description: "Token for accessing the GitHub API"
+    default: ${{ github.token }}

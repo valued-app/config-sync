@@ -9,3 +9,6 @@
 
 # Output of 'npm pack'
 *.tgz
+
+# Custom environment variables
+.env
