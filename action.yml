@@ -1,4 +1,4 @@
-name: "Valued"
+name: "Valued Config Sync"
 description: "Configure Valued projects from your repository"
 
 runs:
