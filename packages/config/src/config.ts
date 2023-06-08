@@ -260,8 +260,8 @@ export class Config {
       throw new Error("name must be a string");
     if (typeof payload.action_key !== "string")
       throw new Error("action_key must be a string");
-    if (typeof payload.within !== "string")
-      throw new Error("within must be a string");
+    if (typeof payload.period !== "string")
+      throw new Error("period must be a string");
   }
 
   private validate(key: string, payload: any) {
