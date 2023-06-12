@@ -62,7 +62,7 @@ on:
     branches: [main]
 
 jobs:
-  test-config-upload:
+  config-upload:
     runs-on: ubuntu-latest
     steps:
       - name: Upload Valued configuration
