@@ -59,8 +59,7 @@ name: valued-config-sync
 
 on:
   push:
-  workflow_dispatch:
-  pull_request:
+    branches: [main]
 
 jobs:
   test-config-upload:
