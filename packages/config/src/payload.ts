@@ -71,6 +71,7 @@ function normalizePayloadValue(value: PayloadValue): StrictPayloadValue {
 
 const pattern = {
   percent: /^(?:(\-)|\+|)(\d*)(?:\.(\d+))?%$/,
+  week: /^(\d+)w$/,
 }
 
 function normalizeString(value: string): StrictPayloadValue {
@@ -79,6 +80,9 @@ function normalizeString(value: string): StrictPayloadValue {
     // not converting to a number so we avoid JavaScript's janky floating point math
     const fullPercent = match[2].padStart(3, "0");
     return `${match[1] || ""}${fullPercent.slice(0, -2)}.${fullPercent.slice(-2)}${match[3] || ""}`;
+  }
+  if (match = value.match(pattern.week)) {
+    return `${Number(match[1])*7}d`;
   }
   return value;
 }
