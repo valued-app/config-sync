@@ -61,10 +61,24 @@ function normalizeKey(key: string): string {
 function normalizePayloadValue(value: PayloadValue): StrictPayloadValue {
   switch (typeof value) {
     case "object": return normalizePayload(value as Payload);
-    case "string": return value;
+    case "string": return normalizeString(value);
     case "number": return value;
     case "boolean": return value;
     case "bigint": return Number(value);
     default: throw new Error(`Unsupported payload value type: ${typeof value}`);
   }
+}
+
+const pattern = {
+  percent: /^(?:(\-)|\+|)(\d*)(?:\.(\d+))?%$/,
+}
+
+function normalizeString(value: string): StrictPayloadValue {
+  let match: RegExpMatchArray | null;
+  if (match = value.match(pattern.percent)) {
+    // not converting to a number so we avoid JavaScript's janky floating point math
+    const fullPercent = match[2].padStart(3, "0");
+    return `${match[1] || ""}${fullPercent.slice(0, -2)}.${fullPercent.slice(-2)}${match[3] || ""}`;
+  }
+  return value;
 }
